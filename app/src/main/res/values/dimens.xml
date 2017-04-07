@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="standard_padding">16dp</dimen>
+    <dimen name="horizontal_rule_height">1dp</dimen>
+    <dimen name="horizontal_rule_margin">8dp</dimen>
+    <dimen name="question_title_size">24sp</dimen>
+    <dimen name="app_title_size">32sp</dimen>
+</resources>
