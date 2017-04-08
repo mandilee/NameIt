@@ -26,7 +26,7 @@
             style="@style/question_title"
             android:text="@string/question_1"/>
 
-        <Image
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/title"

@@ -11,13 +11,13 @@ import android.widget.Toast;
 
 public class QuizActivity extends AppCompatActivity {
 
-    RadioButton answer1a, answer1b, answer1c;
-    EditText answer2;
-    RadioButton answer3a, answer3b, answer3c;
-    CheckBox answer4a, answer4b, answer4c;
-    Button submitButton;
+    private RadioButton answer1a, answer1b, answer1c;
+    private EditText answer2;
+    private RadioButton answer3a, answer3b, answer3c;
+    private CheckBox answer4a, answer4b, answer4c;
+    private Button submitButton;
 
-    int correct = 0, num_questions = 0;
+    private int correct = 0, num_questions = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
