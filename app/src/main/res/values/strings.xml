@@ -1,27 +1,40 @@
 <resources>
     <string name="app_name">Name It</string>
     <string name="question_1">Question 1</string>
-    <string name="answer_1a">ChowChow</string>
-    <string name="answer_1b">LionDog</string>
-    <string name="answer_1c">BearDog</string>
-    <string name="question_2">Question 2</string>
-    <string name="question_2_hint">What breed is this?</string>
-    <string name="question_2_answer">boxer</string>
-    <string name="question_3">Question 3</string>
-    <string name="answer_3a">Bullmastiff</string>
-    <string name="answer_3b">Bernese Mountain Dog</string>
-    <string name="answer_3c">Komondor</string>
-    <string name="question_4">Question 4</string>
-    <string name="answer_4b">Cairn Terrier</string>
-    <string name="answer_4a">Westie</string>
-    <string name="answer_4c">West Highland Terrier</string>
-    <string name="submit_button">Check My Score</string>
+    <string name="alaskan_malamute">Alaskan Malamute</string>
+    <string name="american_eskimo">American Eskimo</string>
+    <string name="boxer">Boxer</string>
+    <string name="bull_mastiff">Bull Mastiff</string>
+    <string name="chowchow">ChowChow</string>
+    <string name="cairn_terrier">Cairn Terrier</string>
+    <string name="dalmatian">Dalmatian</string>
+    <string name="golden_lab">Golden Lab</string>
+    <string name="king_charles">King Charles</string>
+    <string name="labrador">Labrador</string>
+    <string name="weimaraner">Weimaraner</string>
+    <string name="westie">Westie</string>
+    <string name="greyhoud">Greyhound</string>
+    <string name="labradoodle">Labradoodle</string>
+    <string name="staffie">Staffie</string>
+    <string name="poodle">Poodle</string>
+    <string name="husky">Husky</string>
+    <string name="chihuahua">Chihuahua</string>
+    <string name="whippet">Whippet</string>
+
+    <string name="previous_button">Previous</string>
+    <string name="next_button">Next</string>
 
     <string name="you_got">You Got </string>
     <string name="out_of"> out of </string>
-    <string name="right"> Right!</string>
     <string name="missing_answers">You haven\'t answered all the questions.</string>
     <string name="select_one_answer">Select One Answer</string>
     <string name="select_multiple">Select Multiple Answers</string>
+    <string name="edit_text_hint">What breed is this?</string>
     <string name="title">Name The Breed</string>
+    <string name="type_your_answer">Enter Your Answer Below</string>
+    <string name="question">Question</string>
+    <string name="you_were_wrong">You were wrong!\nYou said </string>
+    <string name="its_a">\nIt\'s a</string>
+    <string name="you_were_right">You were correct!</string>
+    <string name="no_more_questions">There are no previous questions</string>
 </resources>
