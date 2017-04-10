@@ -13,16 +13,19 @@
     <string name="labrador">Labrador</string>
     <string name="weimaraner">Weimaraner</string>
     <string name="westie">Westie</string>
-    <string name="greyhoud">Greyhound</string>
+    <string name="greyhound">Greyhound</string>
+    <string name="cocker_spaniel">Cocker Spaniel</string>
     <string name="labradoodle">Labradoodle</string>
     <string name="staffie">Staffie</string>
     <string name="poodle">Poodle</string>
     <string name="husky">Husky</string>
     <string name="chihuahua">Chihuahua</string>
     <string name="whippet">Whippet</string>
+    <string name="west_highland_terrier">West Highland Terrier</string>
 
     <string name="previous_button">Previous</string>
     <string name="next_button">Next</string>
+    <string name="submit_button">Check My Score</string>
 
     <string name="you_got">You Got </string>
     <string name="out_of"> out of </string>
