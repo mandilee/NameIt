@@ -26,6 +26,10 @@ public class QuizActivity extends AppCompatActivity {
     public static final int ANS2 = 2; // first two answers are correct (checkbox only)
     public static final int ANS3 = 3; // first three answers are correct (checkbox only)
     public static final int ANS4 = 4; // all answers are correct (checkbox only)
+    private static final String QUESTION_ARRAY = "questionArray",
+            SCORE = "score",
+            CURRENT_QUESTION = "currentQuestion",
+            NUM_QUESTIONS = "numQuestions";
     private final List<Question> questions = new ArrayList<>();
     private RadioButton radioOptionA, radioOptionB, radioOptionC, radioOptionD;
     private EditText editTextAnswer;
@@ -34,7 +38,6 @@ public class QuizActivity extends AppCompatActivity {
     private Button submitButton;
     private int score = 0, currentQuestion = 0, numQuestions;
     private Question thisQuestion;
-
     private TextView questionNumber, tvGivenAnswer;
     private ImageView questionImage;
     private RadioGroup radioGroup;
@@ -59,7 +62,20 @@ public class QuizActivity extends AppCompatActivity {
         setContentView(R.layout.activity_quiz);
 
         setVariables();
-        addAllQuestions();
+
+        // recovering the instance state
+        if (savedInstanceState != null) {
+            score = savedInstanceState.getInt(SCORE);
+            currentQuestion = savedInstanceState.getInt(CURRENT_QUESTION);
+            numQuestions = savedInstanceState.getInt(NUM_QUESTIONS);
+
+            for (int i = 0; i < numQuestions; i++) {
+                Question q = (Question) savedInstanceState.getSerializable(QUESTION_ARRAY + i);
+                questions.add(q);
+            }
+        } else {
+            addAllQuestions();
+        }
         thisQuestion = questions.get(currentQuestion);
         setQuestion();
 
@@ -105,6 +121,18 @@ public class QuizActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        for (int i = 0; i < numQuestions; i++) {
+            outState.putSerializable(QUESTION_ARRAY + i, questions.get(i));
+        }
+        outState.putInt(NUM_QUESTIONS, numQuestions);
+        outState.putInt(SCORE, score);
+        outState.putInt(CURRENT_QUESTION, currentQuestion);
+        // call superclass to save any view hierarchy
+        super.onSaveInstanceState(outState);
     }
 
     /*

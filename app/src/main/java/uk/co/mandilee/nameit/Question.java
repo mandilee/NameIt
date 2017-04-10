@@ -3,7 +3,9 @@ package uk.co.mandilee.nameit;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 
-class Question {
+import java.io.Serializable;
+
+class Question implements Serializable {
 
     LinearLayout mCheckBox, mEditText;
     RadioGroup mRadioGroup;
@@ -41,6 +43,10 @@ class Question {
         mAnswer1 = answer1;
         mCorrectAnswers = QuizActivity.ANS1;
         mEditText = editText;
+    }
+
+    Question(Serializable q) {
+
     }
 
     int getImageResId() {
