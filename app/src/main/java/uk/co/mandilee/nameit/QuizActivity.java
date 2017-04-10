@@ -22,18 +22,16 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class QuizActivity extends AppCompatActivity {
-    private static final int ANS1 = 1, // only first answer is correct
-            ANS2 = 2, // first two answers are correct (checkbox only)
-            ANS3 = 3, // first three answers are correct (checkbox only)
-            ANS4 = 4; // all answers are correct (checkbox only)
-
+    public static final int ANS1 = 1; // only first answer is correct
+    public static final int ANS2 = 2; // first two answers are correct (checkbox only)
+    public static final int ANS3 = 3; // first three answers are correct (checkbox only)
+    public static final int ANS4 = 4; // all answers are correct (checkbox only)
+    private final List<Question> questions = new ArrayList<>();
     private RadioButton radioOptionA, radioOptionB, radioOptionC, radioOptionD;
     private EditText editTextAnswer;
     private CheckBox checkOptionA, checkOptionB, checkOptionC, checkOptionD;
     private ImageButton nextButton, prevButton;
     private Button submitButton;
-
-    private List<Question> questions = new ArrayList<>();
     private int score = 0, currentQuestion = 0, numQuestions;
     private Question thisQuestion;
 
@@ -43,7 +41,7 @@ public class QuizActivity extends AppCompatActivity {
     private LinearLayout checkBoxGroup, editTextGroup, llGivenAnswer;
 
     // Implementing Fisher–Yates shuffle
-    static void shuffleArray(int[] ar) {
+    private static void shuffleArray(int[] ar) {
         // If running on Java 6 or older, use `new Random()` on RHS here
         Random rnd = ThreadLocalRandom.current();
         for (int i = ar.length - 1; i > 0; i--) {
@@ -75,6 +73,8 @@ public class QuizActivity extends AppCompatActivity {
                 if (checkScoreRadio() && checkScoreEditText() && checkScoreCheckBox()) {
                     currentQuestion++;
                     setQuestion();
+                } else {
+                    myToast(getString(R.string.missing_answers));
                 }
             }
         });
@@ -99,6 +99,8 @@ public class QuizActivity extends AppCompatActivity {
                 if (checkScoreRadio() || checkScoreEditText() || checkScoreCheckBox()) {
                     myToast(getString(R.string.you_got) + " " + score + " " + getString(R.string.out_of) + " " + numQuestions);
                     setQuestion();
+                } else {
+                    myToast(getString(R.string.missing_answers));
                 }
             }
         });
@@ -240,10 +242,9 @@ public class QuizActivity extends AppCompatActivity {
                 thisQuestion.setAnswerGiven(radioButton.getText().toString());
                 if (thisQuestion.getAnswerGiven().equals(getString(thisQuestion.getAnswer1()))) {
                     score++;
-                    thisQuestion.setAnswerCorrect(true);
+                    thisQuestion.setAnswerCorrect();
                 }
             } else {
-                myToast("You haven\'t answered this question");
                 return false;
             }
         }
@@ -261,10 +262,9 @@ public class QuizActivity extends AppCompatActivity {
                 thisQuestion.setAnswerGiven(answer);
                 if (thisQuestion.getAnswerGiven().equalsIgnoreCase(getString(thisQuestion.getAnswer1()))) {
                     score++;
-                    thisQuestion.setAnswerCorrect(true);
+                    thisQuestion.setAnswerCorrect();
                 }
             } else {
-                myToast("You haven\'t answered this question");
                 return false;
             }
         }
@@ -319,14 +319,13 @@ public class QuizActivity extends AppCompatActivity {
             }
 
             if (answers == 0 && !wrong) {
-                myToast("You haven\'t answered this question");
                 return false;
             }
 
             thisQuestion.setAnswerGiven(given.substring(0, given.length() - 2));
             if (answers == thisQuestion.getCorrectAnswers() && !wrong) {
                 score++;
-                thisQuestion.setAnswerCorrect(true);
+                thisQuestion.setAnswerCorrect();
             }
         }
         return true;
@@ -349,29 +348,29 @@ public class QuizActivity extends AppCompatActivity {
                 R.string.bull_mastiff, R.string.dalmatian, ANS2, checkBoxGroup));
 
         questions.add(new Question(R.drawable.american_eskimo, R.string.american_eskimo,
-                R.string.alaskan_malamute, R.string.husky, R.string.king_charles, ANS1, radioGroup));
+                R.string.alaskan_malamute, R.string.husky, R.string.king_charles, radioGroup));
 
         questions.add(new Question(R.drawable.bullmastiff, R.string.bull_mastiff,
-                R.string.dalmatian, R.string.chihuahua, R.string.staffie, ANS1, radioGroup));
+                R.string.dalmatian, R.string.chihuahua, R.string.staffie, radioGroup));
 
-        questions.add(new Question(R.drawable.boxer, R.string.boxer, ANS1, editTextGroup));
+        questions.add(new Question(R.drawable.boxer, R.string.boxer, editTextGroup));
 
         questions.add(new Question(R.drawable.alaskan_malamute, R.string.alaskan_malamute,
-                R.string.american_eskimo, R.string.husky, R.string.chihuahua, ANS1, radioGroup));
+                R.string.american_eskimo, R.string.husky, R.string.chihuahua, radioGroup));
 
         questions.add(new Question(R.drawable.chowchow, R.string.chowchow,
-                R.string.cairn_terrier, R.string.alaskan_malamute, R.string.poodle, ANS1, radioGroup));
+                R.string.cairn_terrier, R.string.alaskan_malamute, R.string.poodle, radioGroup));
 
         questions.add(new Question(R.drawable.westie, R.string.westie, R.string.west_highland_terrier,
                 R.string.cairn_terrier, R.string.chowchow, ANS1, checkBoxGroup));
 
         questions.add(new Question(R.drawable.king_charles, R.string.king_charles,
-                R.string.cocker_spaniel, R.string.labradoodle, R.string.poodle, ANS1, radioGroup));
+                R.string.cocker_spaniel, R.string.labradoodle, R.string.poodle, radioGroup));
 
         questions.add(new Question(R.drawable.weimaraner, R.string.weimaraner,
-                R.string.greyhound, R.string.cairn_terrier, R.string.labrador, ANS1, radioGroup));
+                R.string.greyhound, R.string.cairn_terrier, R.string.labrador, radioGroup));
 
-        questions.add(new Question(R.drawable.whippet, R.string.whippet, ANS1, editTextGroup));
+        questions.add(new Question(R.drawable.whippet, R.string.whippet, editTextGroup));
 
         // store number of questions for later
         numQuestions = questions.size();

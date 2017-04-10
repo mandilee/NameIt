@@ -5,16 +5,18 @@ import android.widget.RadioGroup;
 
 class Question {
 
-    int mImageResId, mFunFactResId;
-    int mAnswer1, mAnswer2, mAnswer3, mAnswer4;
-    int mCorrectAnswers;
-    String mAnswerGiven = "";
     LinearLayout mCheckBox, mEditText;
     RadioGroup mRadioGroup;
-    boolean mAnswerCorrect = false;
-    String mEditTextAnswer;
+    private int mImageResId;
+    private int mAnswer1;
+    private int mAnswer2;
+    private int mAnswer3;
+    private int mAnswer4;
+    private int mCorrectAnswers;
+    private String mAnswerGiven = "";
+    private boolean mAnswerCorrect = false;
 
-    public Question(int imageResId, int answer1, int answer2, int answer3, int answer4, int correctAnswers, LinearLayout checkBox) {
+    Question(int imageResId, int answer1, int answer2, int answer3, int answer4, int correctAnswers, LinearLayout checkBox) {
         mImageResId = imageResId;
         mAnswer1 = answer1;
         mAnswer2 = answer2;
@@ -24,88 +26,76 @@ class Question {
         mCheckBox = checkBox;
     }
 
-    public Question(int imageResId, int answer1, int answer2, int answer3, int answer4, int correctAnswer, RadioGroup radioGroup) {
+    Question(int imageResId, int answer1, int answer2, int answer3, int answer4, RadioGroup radioGroup) {
         mImageResId = imageResId;
         mAnswer1 = answer1;
         mAnswer2 = answer2;
         mAnswer3 = answer3;
         mAnswer4 = answer4;
-        mCorrectAnswers = correctAnswer;
+        mCorrectAnswers = QuizActivity.ANS1;
         mRadioGroup = radioGroup;
     }
 
-    public Question(int imageResId, int answer1, int correctAnswer, LinearLayout editText) {
+    Question(int imageResId, int answer1, LinearLayout editText) {
         mImageResId = imageResId;
         mAnswer1 = answer1;
-        mCorrectAnswers = correctAnswer;
+        mCorrectAnswers = QuizActivity.ANS1;
         mEditText = editText;
     }
 
-    public int getImageResId() {
+    int getImageResId() {
         return mImageResId;
     }
 
-    public int getFunFactResId() {
-        return mFunFactResId;
-    }
-
-    public int getAnswer1() {
+    int getAnswer1() {
         return mAnswer1;
     }
 
-    public int getAnswer2() {
+    int getAnswer2() {
         return mAnswer2;
     }
 
-    public int getAnswer3() {
+    int getAnswer3() {
         return mAnswer3;
     }
 
-    public int getAnswer4() {
+    int getAnswer4() {
         return mAnswer4;
     }
 
-    public int getCorrectAnswers() {
+    int getCorrectAnswers() {
         return mCorrectAnswers;
     }
 
-    public String getAnswerGiven() {
+    String getAnswerGiven() {
         return mAnswerGiven;
     }
 
-    public void setAnswerGiven(String answerGiven) {
+    void setAnswerGiven(String answerGiven) {
         mAnswerGiven = answerGiven;
     }
 
-    public LinearLayout getCheckBox() {
+    LinearLayout getCheckBox() {
         return mCheckBox;
     }
 
-    public LinearLayout getEditText() {
+    LinearLayout getEditText() {
         return mEditText;
     }
 
-    public RadioGroup getRadioGroup() {
+    RadioGroup getRadioGroup() {
         return mRadioGroup;
     }
 
-    public boolean isAnswerCorrect() {
+    boolean isAnswerCorrect() {
         return mAnswerCorrect;
     }
 
-    public void setAnswerCorrect(boolean answerCorrect) {
-        mAnswerCorrect = answerCorrect;
+    void setAnswerCorrect() {
+        mAnswerCorrect = true;
     }
 
-    public String getEditTextAnswer() {
-        return mEditTextAnswer;
-    }
-
-    public void setEditTextAnswer(String editTextAnswer) {
-        mEditTextAnswer = editTextAnswer;
-    }
-
-    public int[] getAnswerArray() {
+    int[] getAnswerArray() {
         return new int[]{mAnswer1, mAnswer2, mAnswer3, mAnswer4};
     }
 }
