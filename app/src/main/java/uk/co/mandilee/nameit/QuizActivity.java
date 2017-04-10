@@ -20,17 +20,16 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class QuizActivity extends AppCompatActivity {
-    private static final int ANS1 = 1;
-    private static final int ANS2 = 2;
-    private static final int ANS3 = 4;
-    private static final int AN$4 = 7;
+    private static final int ANS1 = 1; // only first answer is correct
+    private static final int ANS2 = 2; // first two answers are correct (checkbox only)
+    private static final int ANS3 = 3; // first three answers are correct (checkbox only)
+    private static final int AN$4 = 4; // all answers are correct (checkbox only)
 
     private RadioButton radioOptionA, radioOptionB, radioOptionC, radioOptionD;
     private EditText editTextAnswer;
     private CheckBox checkOptionA, checkOptionB, checkOptionC, checkOptionD;
     private ImageButton nextButton, prevButton, submitButton;
 
-    private List<Integer> answers = new ArrayList<>();
     private List<Question> questions = new ArrayList<>();
     private int score = 0, currentQuestion = 0, numQuestions;
     private Question thisQuestion;
@@ -57,6 +56,7 @@ public class QuizActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
+
         setVariables();
         addAllQuestions();
         thisQuestion = questions.get(currentQuestion);
@@ -182,7 +182,7 @@ public class QuizActivity extends AppCompatActivity {
 
         } else if (thisQuestion.mCheckBox != null) {
             checkOptionA.setText(answers[0]);
-            checkOptionB.setText(answers[2]);
+            checkOptionB.setText(answers[1]);
             checkOptionC.setText(answers[2]);
             checkOptionD.setText(answers[3]);
             setCheckboxes(thisQuestion.mAnswerGiven.equals(""));
@@ -286,13 +286,13 @@ public class QuizActivity extends AppCompatActivity {
                 }
             }
 
-            if (answers == 0 && wrong == false) {
+            if (answers == 0 && !wrong) {
                 myToast("You haven\'t answered this question");
                 return false;
             }
 
             thisQuestion.setAnswerGiven(given.substring(0, given.length() - 2));
-            if (answers == thisQuestion.getCorrectAnswers() && wrong == false) {
+            if (answers == thisQuestion.getCorrectAnswers() && !wrong) {
                 score++;
                 thisQuestion.setAnswerCorrect(true);
             }
@@ -302,7 +302,7 @@ public class QuizActivity extends AppCompatActivity {
 
     private void addAllQuestions() {
         questions.add(new Question(R.drawable.labrador, R.string.labrador, R.string.golden_lab,
-                R.string.bull_mastiff, R.string.dalmatian, 2, checkBoxGroup));
+                R.string.bull_mastiff, R.string.dalmatian, ANS2, checkBoxGroup));
 
         questions.add(new Question(R.drawable.westie, R.string.westie, R.string.cairn_terrier,
                 R.string.alaskan_malamute, R.string.chowchow, ANS1, radioGroup));
