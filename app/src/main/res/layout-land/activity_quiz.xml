@@ -4,19 +4,20 @@
                                              xmlns:tools="http://schemas.android.com/tools"
                                              android:layout_width="match_parent"
                                              android:layout_height="match_parent"
-                                             android:orientation="vertical">
+                                             android:orientation="vertical"
+                                             tools:layout_editor_absoluteX="0dp"
+                                             tools:layout_editor_absoluteY="0dp">
 
     <TextView
         android:id="@+id/textView"
         style="@style/app_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_16dp"
-        android:layout_marginRight="@dimen/margin_16dp"
-        android:layout_marginTop="@dimen/margin_16dp"
+        android:layout_marginLeft="@dimen/margin_8dp"
+        android:layout_marginRight="@dimen/margin_8dp"
+        android:layout_marginTop="@dimen/margin_8dp"
         android:text="@string/title"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/question_image"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
@@ -24,44 +25,43 @@
         android:id="@+id/question_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/margin_8dp"
-        android:layout_marginStart="@dimen/margin_8dp"
-        android:layout_marginTop="@dimen/margin_32dp"
+        android:layout_marginLeft="@dimen/margin_16dp"
+        android:layout_marginRight="@dimen/margin_16dp"
+        android:layout_marginTop="0dp"
         android:gravity="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/question_image"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
         tools:text="@string/question_1"/>
 
     <ImageView
         android:id="@+id/question_image"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/margin_8dp"
-        android:layout_marginStart="@dimen/margin_8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/margin_16dp"
+        android:layout_marginStart="@dimen/margin_16dp"
         android:layout_marginTop="@dimen/margin_8dp"
         android:contentDescription="@string/app_name"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toRightOf="@+id/prev_button"
-        app:layout_constraintRight_toLeftOf="@+id/next_button"
-        app:layout_constraintTop_toBottomOf="@+id/question_number"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
         tools:src="@drawable/westie"/>
 
     <LinearLayout
         android:id="@+id/edit_text_group"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/margin_8dp"
-        android:layout_marginStart="@dimen/margin_8dp"
-        android:layout_marginTop="@dimen/question_title_size"
+        android:layout_margin="@dimen/margin_16dp"
         android:gravity="center"
         android:orientation="vertical"
         android:visibility="gone"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/prev_button"
+        app:layout_constraintLeft_toRightOf="@+id/question_image"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/question_image">
+        app:layout_constraintTop_toBottomOf="@+id/question_number">
 
         <TextView
             android:id="@+id/textView2"
@@ -74,32 +74,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/edit_text_hint"
-            android:textAlignment="center"
-            tools:layout_editor_absoluteX="@dimen/margin_8dp"
-            tools:layout_editor_absoluteY="@dimen/margin_8dp"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/answer_group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/margin_8dp"
-        android:layout_marginStart="@dimen/margin_8dp"
-        android:layout_marginTop="@dimen/question_title_size"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/question_image">
-
-        <TextView
-            android:id="@+id/given_answer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"/>
+            android:textAlignment="center"/>
 
     </LinearLayout>
 
@@ -107,42 +82,37 @@
         android:id="@+id/prev_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_8dp"
-        android:layout_marginStart="@dimen/margin_8dp"
-        android:layout_marginTop="@dimen/margin_8dp"
+        android:layout_marginBottom="@dimen/margin_16dp"
+        android:layout_marginStart="@dimen/margin_16dp"
         android:contentDescription="@string/previous_button"
+        android:elevation="@dimen/elevation"
         android:src="@drawable/ic_prev"
-        app:layout_constraintBottom_toBottomOf="@+id/question_image"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/question_image"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/question_image"/>
 
     <ImageButton
         android:id="@+id/next_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_8dp"
-        android:layout_marginEnd="@dimen/margin_8dp"
-        android:layout_marginTop="@dimen/margin_8dp"
+        android:layout_marginBottom="@dimen/margin_16dp"
+        android:layout_marginEnd="@dimen/margin_16dp"
         android:contentDescription="@string/next_button"
+        android:elevation="@dimen/elevation"
         android:src="@drawable/ic_next"
-        app:layout_constraintBottom_toBottomOf="@+id/question_image"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/question_image"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
 
     <RadioGroup
         android:id="@+id/radio_group"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_8dp"
-        android:layout_marginEnd="@dimen/margin_8dp"
-        android:layout_marginStart="@dimen/margin_8dp"
-        android:layout_marginTop="@dimen/margin_8dp"
+        android:layout_margin="@dimen/margin_16dp"
         android:gravity="center"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/prev_button"
+        app:layout_constraintLeft_toRightOf="@+id/question_image"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/question_image">
+        app:layout_constraintTop_toBottomOf="@+id/question_number">
 
         <TextView
             android:layout_width="wrap_content"
@@ -180,16 +150,13 @@
         android:id="@+id/checkbox_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_8dp"
-        android:layout_marginEnd="@dimen/margin_8dp"
-        android:layout_marginStart="@dimen/margin_8dp"
-        android:layout_marginTop="@dimen/margin_8dp"
+        android:layout_margin="@dimen/margin_16dp"
         android:orientation="vertical"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/prev_button"
+        app:layout_constraintLeft_toRightOf="@+id/question_image"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/question_image">
+        app:layout_constraintTop_toBottomOf="@+id/question_number">
 
         <TextView
             android:id="@+id/checkboxTextView"
@@ -228,15 +195,38 @@
         android:id="@+id/submit_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_8dp"
-        android:layout_marginBottom="@dimen/margin_8dp"
+        android:layout_marginBottom="@dimen/margin_16dp"
         android:layout_marginEnd="@dimen/margin_8dp"
         android:layout_marginStart="@dimen/margin_8dp"
         android:drawableEnd="@drawable/ic_submit"
+        android:elevation="@dimen/elevation"
         android:text="@string/submit_button"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toRightOf="@+id/prev_button"
+        app:layout_constraintRight_toLeftOf="@+id/next_button"/>
+
+    <LinearLayout
+        android:id="@+id/answer_group"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/margin_16dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/prev_button"
+        app:layout_constraintLeft_toRightOf="@+id/question_image"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/question_number">
+
+        <TextView
+            android:id="@+id/given_answer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"/>
+
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

@@ -39,5 +39,4 @@
     <string name="you_were_wrong">You were wrong!\nYou said </string>
     <string name="its_a">\nIt\'s a</string>
     <string name="you_were_right">You were correct!</string>
-    <string name="no_more_questions">There are no previous questions</string>
 </resources>
