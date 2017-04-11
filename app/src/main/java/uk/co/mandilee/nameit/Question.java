@@ -1,14 +1,21 @@
 package uk.co.mandilee.nameit;
 
-import android.widget.LinearLayout;
-import android.widget.RadioGroup;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-import java.io.Serializable;
+class Question implements Parcelable {
 
-class Question implements Serializable {
+    public static final Creator<Question> CREATOR = new Creator<Question>() {
+        @Override
+        public Question[] newArray(int size) {
+            return new Question[size];
+        }
 
-    LinearLayout mCheckBox, mEditText;
-    RadioGroup mRadioGroup;
+        @Override
+        public Question createFromParcel(Parcel source) {
+            return new Question(source);
+        }
+    };
     private int mImageResId;
     private int mAnswer1;
     private int mAnswer2;
@@ -17,35 +24,45 @@ class Question implements Serializable {
     private int mCorrectAnswers;
     private String mAnswerGiven = "";
     private boolean mAnswerCorrect = false;
+    private int mQuestionType;
 
-    Question(int imageResId, int answer1, int answer2, int answer3, int answer4, int correctAnswers, LinearLayout checkBox) {
+    Question(int imageResId, int answer1, int answer2, int answer3, int answer4, int correctAnswers, int questionType) {
         mImageResId = imageResId;
         mAnswer1 = answer1;
         mAnswer2 = answer2;
         mAnswer3 = answer3;
         mAnswer4 = answer4;
         mCorrectAnswers = correctAnswers;
-        mCheckBox = checkBox;
+        mQuestionType = questionType;
     }
 
-    Question(int imageResId, int answer1, int answer2, int answer3, int answer4, RadioGroup radioGroup) {
+    Question(int imageResId, int answer1, int answer2, int answer3, int answer4, int questionType) {
         mImageResId = imageResId;
         mAnswer1 = answer1;
         mAnswer2 = answer2;
         mAnswer3 = answer3;
         mAnswer4 = answer4;
         mCorrectAnswers = QuizActivity.ANS1;
-        mRadioGroup = radioGroup;
+        mQuestionType = questionType;
     }
 
-    Question(int imageResId, int answer1, LinearLayout editText) {
+    Question(int imageResId, int answer1, int questionType) {
         mImageResId = imageResId;
         mAnswer1 = answer1;
         mCorrectAnswers = QuizActivity.ANS1;
-        mEditText = editText;
+        mQuestionType = questionType;
     }
 
-    Question(Serializable q) {
+    private Question(Parcel parcel) {
+        mImageResId = parcel.readInt();
+        mAnswer1 = parcel.readInt();
+        mAnswer2 = parcel.readInt();
+        mAnswer3 = parcel.readInt();
+        mAnswer4 = parcel.readInt();
+        mCorrectAnswers = parcel.readInt();
+        mAnswerGiven = parcel.readString();
+        mAnswerCorrect = Boolean.valueOf(parcel.readString());
+        mQuestionType = parcel.readInt();
 
     }
 
@@ -81,16 +98,8 @@ class Question implements Serializable {
         mAnswerGiven = answerGiven;
     }
 
-    LinearLayout getCheckBox() {
-        return mCheckBox;
-    }
-
-    LinearLayout getEditText() {
-        return mEditText;
-    }
-
-    RadioGroup getRadioGroup() {
-        return mRadioGroup;
+    int getQuestionType() {
+        return mQuestionType;
     }
 
     boolean isAnswerCorrect() {
@@ -103,5 +112,24 @@ class Question implements Serializable {
 
     int[] getAnswerArray() {
         return new int[]{mAnswer1, mAnswer2, mAnswer3, mAnswer4};
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(mImageResId);
+        dest.writeInt(mAnswer1);
+        dest.writeInt(mAnswer2);
+        dest.writeInt(mAnswer3);
+        dest.writeInt(mAnswer4);
+        dest.writeInt(mCorrectAnswers);
+        dest.writeString(mAnswerGiven);
+        dest.writeString(String.valueOf(mAnswerCorrect));
+        dest.writeInt(mQuestionType);
+
     }
 }
