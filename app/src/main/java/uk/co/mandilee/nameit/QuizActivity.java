@@ -17,20 +17,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class QuizActivity extends AppCompatActivity {
-    public static final int ANS1 = 1; // only first answer is correct
-    public static final int ANS2 = 2; // first two answers are correct (checkbox only)
-    public static final int ANS3 = 3; // first three answers are correct (checkbox only)
-    public static final int ANS4 = 4; // all answers are correct (checkbox only)
+    public static final int RADIO = 1, // question type is RadioButton
+            CHECKBOX = 2, // question type is CheckBox
+            EDITTEXT = 3; // question type is EditText
+    public static final int ANS1 = 1, // only first answer is correct
+            ANS2 = 2, // first two answers are correct (checkbox only)
+            ANS3 = 3, // first three answers are correct (checkbox only)
+            ANS4 = 4; // all answers are correct (checkbox only)
     private static final String QUESTION_ARRAY = "questionArray",
             SCORE = "score",
             CURRENT_QUESTION = "currentQuestion",
             NUM_QUESTIONS = "numQuestions";
-    private final List<Question> questions = new ArrayList<>();
+    ArrayList<Question> questions = new ArrayList<>();
     private RadioButton radioOptionA, radioOptionB, radioOptionC, radioOptionD;
     private EditText editTextAnswer;
     private CheckBox checkOptionA, checkOptionB, checkOptionC, checkOptionD;
@@ -69,13 +71,11 @@ public class QuizActivity extends AppCompatActivity {
             currentQuestion = savedInstanceState.getInt(CURRENT_QUESTION);
             numQuestions = savedInstanceState.getInt(NUM_QUESTIONS);
 
-            for (int i = 0; i < numQuestions; i++) {
-                Question q = (Question) savedInstanceState.getSerializable(QUESTION_ARRAY + i);
-                questions.add(q);
-            }
+            questions = savedInstanceState.getParcelableArrayList(QUESTION_ARRAY);
         } else {
             addAllQuestions();
         }
+
         thisQuestion = questions.get(currentQuestion);
         setQuestion();
 
@@ -125,10 +125,7 @@ public class QuizActivity extends AppCompatActivity {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        for (int i = 0; i < numQuestions; i++) {
-            outState.putSerializable(QUESTION_ARRAY + i, questions.get(i));
-        }
-        outState.putInt(NUM_QUESTIONS, numQuestions);
+        outState.putParcelableArrayList(QUESTION_ARRAY, questions);
         outState.putInt(SCORE, score);
         outState.putInt(CURRENT_QUESTION, currentQuestion);
         // call superclass to save any view hierarchy
@@ -229,7 +226,7 @@ public class QuizActivity extends AppCompatActivity {
             llGivenAnswer.setVisibility(View.VISIBLE);
 
             // if it hasn't been answered and it's a radio
-        } else if (thisQuestion.mRadioGroup != null) {
+        } else if (thisQuestion.getQuestionType() == RADIO) {
             // set the random answers and make visible
             radioOptionA.setText(answers[0]);
             radioOptionB.setText(answers[1]);
@@ -238,7 +235,7 @@ public class QuizActivity extends AppCompatActivity {
             radioGroup.setVisibility(View.VISIBLE);
 
             // if it hasn't been answered and it's a checkbox
-        } else if (thisQuestion.mCheckBox != null) {
+        } else if (thisQuestion.getQuestionType() == CHECKBOX) {
             // set the random answers and make visible
             checkOptionA.setText(answers[0]);
             checkOptionB.setText(answers[1]);
@@ -247,7 +244,7 @@ public class QuizActivity extends AppCompatActivity {
             checkBoxGroup.setVisibility(View.VISIBLE);
 
             // if it hasn't been answered and it's an edittext
-        } else if (thisQuestion.mEditText != null) {
+        } else if (thisQuestion.getQuestionType() == EDITTEXT) {
             // empty and make visible
             editTextAnswer.setText("");
             editTextGroup.setVisibility(View.VISIBLE);
@@ -262,7 +259,7 @@ public class QuizActivity extends AppCompatActivity {
      * @return boolean - whether or not it's been answered
      */
     private boolean checkScoreRadio() {
-        if (thisQuestion.getRadioGroup() != null && thisQuestion.getAnswerGiven().equals("")) {
+        if (thisQuestion.getQuestionType() == RADIO && thisQuestion.getAnswerGiven().equals("")) {
             if (radioGroup.getCheckedRadioButtonId() != -1) {
                 int selectedId = radioGroup.getCheckedRadioButtonId();
                 RadioButton radioButton = (RadioButton) findViewById(selectedId);
@@ -284,7 +281,7 @@ public class QuizActivity extends AppCompatActivity {
      * @return boolean - whether or not it's been answered
      */
     private boolean checkScoreEditText() {
-        if (thisQuestion.getEditText() != null) {
+        if (thisQuestion.getQuestionType() == EDITTEXT) {
             String answer = editTextAnswer.getText().toString();
             if (answer.length() > 0) {
                 thisQuestion.setAnswerGiven(answer);
@@ -304,7 +301,7 @@ public class QuizActivity extends AppCompatActivity {
      * @return boolean - whether or not it's been answered
      */
     private boolean checkScoreCheckBox() {
-        if (thisQuestion.getCheckBox() != null && thisQuestion.getAnswerGiven().equals("")) {
+        if (thisQuestion.getQuestionType() == CHECKBOX && thisQuestion.getAnswerGiven().equals("")) {
             String given = " ";
             double answers = 0;
             boolean wrong = false;
@@ -373,32 +370,32 @@ public class QuizActivity extends AppCompatActivity {
      */
     private void addAllQuestions() {
         questions.add(new Question(R.drawable.labrador, R.string.labrador, R.string.golden_lab,
-                R.string.bull_mastiff, R.string.dalmatian, ANS2, checkBoxGroup));
+                R.string.bull_mastiff, R.string.dalmatian, ANS2, CHECKBOX));
 
         questions.add(new Question(R.drawable.american_eskimo, R.string.american_eskimo,
-                R.string.alaskan_malamute, R.string.husky, R.string.king_charles, radioGroup));
+                R.string.alaskan_malamute, R.string.husky, R.string.king_charles, RADIO));
 
         questions.add(new Question(R.drawable.bullmastiff, R.string.bull_mastiff,
-                R.string.dalmatian, R.string.chihuahua, R.string.staffie, radioGroup));
+                R.string.dalmatian, R.string.chihuahua, R.string.staffie, RADIO));
 
-        questions.add(new Question(R.drawable.boxer, R.string.boxer, editTextGroup));
+        questions.add(new Question(R.drawable.boxer, R.string.boxer, EDITTEXT));
 
         questions.add(new Question(R.drawable.alaskan_malamute, R.string.alaskan_malamute,
-                R.string.american_eskimo, R.string.husky, R.string.chihuahua, radioGroup));
+                R.string.american_eskimo, R.string.husky, R.string.chihuahua, RADIO));
 
         questions.add(new Question(R.drawable.chowchow, R.string.chowchow,
-                R.string.cairn_terrier, R.string.alaskan_malamute, R.string.poodle, radioGroup));
+                R.string.cairn_terrier, R.string.alaskan_malamute, R.string.poodle, RADIO));
 
         questions.add(new Question(R.drawable.westie, R.string.westie, R.string.west_highland_terrier,
-                R.string.cairn_terrier, R.string.chowchow, ANS1, checkBoxGroup));
+                R.string.cairn_terrier, R.string.chowchow, ANS1, CHECKBOX));
 
         questions.add(new Question(R.drawable.king_charles, R.string.king_charles,
-                R.string.cocker_spaniel, R.string.labradoodle, R.string.poodle, radioGroup));
+                R.string.cocker_spaniel, R.string.labradoodle, R.string.poodle, RADIO));
 
         questions.add(new Question(R.drawable.weimaraner, R.string.weimaraner,
-                R.string.greyhound, R.string.cairn_terrier, R.string.labrador, radioGroup));
+                R.string.greyhound, R.string.cairn_terrier, R.string.labrador, RADIO));
 
-        questions.add(new Question(R.drawable.whippet, R.string.whippet, editTextGroup));
+        questions.add(new Question(R.drawable.whippet, R.string.whippet, EDITTEXT));
 
         // store number of questions for later
         numQuestions = questions.size();
