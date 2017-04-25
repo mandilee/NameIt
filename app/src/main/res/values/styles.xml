@@ -8,21 +8,6 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="horizontal_rule">
-        <item name="android:background">@color/colorAccent</item>
-        <item name="android:layout_height">@dimen/horizontal_rule_height</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_marginBottom">@dimen/horizontal_rule_margin</item>
-    </style>
-
-    <style name="question_title">
-        <item name="android:textSize">@dimen/question_title_size</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingTop">@dimen/margin_8dp</item>
-        <item name="android:paddingBottom">@dimen/margin_8dp</item>
-        <item name="android:layout_width">match_parent</item>
-    </style>
-
     <style name="app_title">
         <item name="android:textSize">@dimen/app_title_size</item>
     </style>

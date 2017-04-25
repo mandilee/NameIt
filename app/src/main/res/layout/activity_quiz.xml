@@ -77,7 +77,6 @@
             android:textAlignment="center"
             tools:layout_editor_absoluteX="@dimen/margin_8dp"
             tools:layout_editor_absoluteY="@dimen/margin_8dp"/>
-
     </LinearLayout>
 
     <LinearLayout
@@ -100,7 +99,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"/>
-
     </LinearLayout>
 
     <ImageButton
@@ -138,7 +136,6 @@
         android:layout_marginStart="@dimen/margin_8dp"
         android:layout_marginTop="@dimen/margin_8dp"
         android:gravity="center"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -238,5 +235,4 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
-
 </android.support.constraint.ConstraintLayout>

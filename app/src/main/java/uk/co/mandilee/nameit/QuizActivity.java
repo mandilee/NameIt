@@ -21,40 +21,84 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class QuizActivity extends AppCompatActivity {
+    /**
+     * constants for later use
+     */
     public static final int RADIO = 1, // question type is RadioButton
             CHECKBOX = 2, // question type is CheckBox
             EDITTEXT = 3; // question type is EditText
+
     public static final int ANS1 = 1, // only first answer is correct
             ANS2 = 2, // first two answers are correct (checkbox only)
             ANS3 = 3, // first three answers are correct (checkbox only)
             ANS4 = 4; // all answers are correct (checkbox only)
+
     private static final String QUESTION_ARRAY = "questionArray",
             SCORE = "score",
             CURRENT_QUESTION = "currentQuestion",
             NUM_QUESTIONS = "numQuestions";
-    ArrayList<Question> questions = new ArrayList<>();
-    private RadioButton radioOptionA, radioOptionB, radioOptionC, radioOptionD;
-    private EditText editTextAnswer;
-    private CheckBox checkOptionA, checkOptionB, checkOptionC, checkOptionD;
-    private ImageButton nextButton, prevButton;
-    private Button submitButton;
-    private int score = 0, currentQuestion = 0, numQuestions;
-    private Question thisQuestion;
-    private TextView questionNumber, tvGivenAnswer;
-    private ImageView questionImage;
-    private RadioGroup radioGroup;
-    private LinearLayout checkBoxGroup, editTextGroup, llGivenAnswer;
 
-    // Implementing Fisher–Yates shuffle
-    private static void shuffleArray(int[] ar) {
-        // If running on Java 6 or older, use `new Random()` on RHS here
-        Random rnd = ThreadLocalRandom.current();
-        for (int i = ar.length - 1; i > 0; i--) {
-            int index = rnd.nextInt(i + 1);
-            // Simple swap
-            int a = ar[index];
-            ar[index] = ar[i];
-            ar[i] = a;
+    /** array list to hold the questions */
+    ArrayList<Question> questions = new ArrayList<>();
+
+    /**
+     * radio group and the radio button options
+     */
+    private RadioGroup radioGroup;
+    private RadioButton radioOptionA,
+            radioOptionB,
+            radioOptionC,
+            radioOptionD;
+
+    /** edit text answer field */
+    private EditText editTextAnswer;
+
+    /**
+     * checkbox options
+     */
+    private CheckBox checkOptionA,
+            checkOptionB,
+            checkOptionC,
+            checkOptionD;
+
+    /** previous and next buttons */
+    private ImageButton nextButton,
+            prevButton;
+
+    /** submit button */
+    private Button submitButton;
+
+    /** counters */
+    private int score = 0,
+            currentQuestion = 0,
+            numQuestions;
+
+    /** current question */
+    private Question thisQuestion;
+
+    /** text views for later manipulation */
+    private TextView questionNumber,
+            tvGivenAnswer;
+
+    /** the "question" (which is really just an image!) */
+    private ImageView questionImage;
+
+    /**
+     * the answer layouts to switch
+     * @TODO change to a ViewPager so I don't need these?
+     */
+    private LinearLayout checkBoxGroup,
+            editTextGroup,
+            llGivenAnswer;
+
+    // Fisher–Yates shuffle
+    private static void shuffleIntArray(int[] array) {
+        Random random = ThreadLocalRandom.current();
+        for (int i = array.length - 1; i > 0; i--) {    // loop through the array
+            int random_num = random.nextInt(i + 1);     // get a random integer
+            int temp_val = array[random_num];           // get the value of item a temporarily
+            array[random_num] = array[i];               // set the value of item b
+            array[i] = temp_val;                        // now set item a with temp-saved value
         }
     }
 
@@ -63,17 +107,17 @@ public class QuizActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
 
+        // set variables in a separate function for code-cleanliness
         setVariables();
 
-        // recovering the instance state
+        // recovering the state
         if (savedInstanceState != null) {
-            score = savedInstanceState.getInt(SCORE);
-            currentQuestion = savedInstanceState.getInt(CURRENT_QUESTION);
-            numQuestions = savedInstanceState.getInt(NUM_QUESTIONS);
-
-            questions = savedInstanceState.getParcelableArrayList(QUESTION_ARRAY);
+            score = savedInstanceState.getInt(SCORE);                               // get score
+            currentQuestion = savedInstanceState.getInt(CURRENT_QUESTION);          // get current question
+            numQuestions = savedInstanceState.getInt(NUM_QUESTIONS);                // get number of questions
+            questions = savedInstanceState.getParcelableArrayList(QUESTION_ARRAY);  // get question array
         } else {
-            addAllQuestions();
+            addAllQuestions();                                                      // no previous state, add all questions fresh.
         }
 
         thisQuestion = questions.get(currentQuestion);
@@ -108,7 +152,7 @@ public class QuizActivity extends AppCompatActivity {
         });
 
         // submit button clicked, check question has been answered
-        // show Toast with score/
+        // show Toast with score
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -132,7 +176,7 @@ public class QuizActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
     }
 
-    /*
+    /**
      * initialize all the variables here to keep it tidy
      */
     private void setVariables() {
@@ -168,13 +212,13 @@ public class QuizActivity extends AppCompatActivity {
         submitButton = (Button) findViewById(R.id.submit_button);
     }
 
-    /*
+    /**
      * set all the pieces for the current question
      */
     private void setQuestion() {
         thisQuestion = questions.get(currentQuestion);  // get the current question
         int[] answers = thisQuestion.getAnswerArray();  // get the answer array
-        shuffleArray(answers);                          // shuffle the answers
+        shuffleIntArray(answers);                       // shuffle the answers
 
         // hide all the answer types
         llGivenAnswer.setVisibility(View.GONE);
@@ -202,7 +246,7 @@ public class QuizActivity extends AppCompatActivity {
         if (!thisQuestion.getAnswerGiven().equals("")) {
             String correctAnswer = "";
             // Grab all the string answer(s)
-            // switch fallthrough is intentional here!
+            // !! switch fallthrough is intentional here !!
             switch (thisQuestion.getCorrectAnswers()) {
                 case ANS4:
                     correctAnswer += getString(thisQuestion.getAnswer4()) + ", ";
@@ -210,7 +254,7 @@ public class QuizActivity extends AppCompatActivity {
                     correctAnswer += getString(thisQuestion.getAnswer3()) + ", ";
                 case ANS2:
                     correctAnswer += getString(thisQuestion.getAnswer2()) + ", ";
-                case 1:
+                case ANS1:
                     correctAnswer += getString(thisQuestion.getAnswer1()) + ", ";
             }
             correctAnswer = correctAnswer.substring(0, correctAnswer.length() - 2);
@@ -225,7 +269,7 @@ public class QuizActivity extends AppCompatActivity {
             // and set the response visible
             llGivenAnswer.setVisibility(View.VISIBLE);
 
-            // if it hasn't been answered and it's a radio
+        // if it hasn't been answered and it's a radio
         } else if (thisQuestion.getQuestionType() == RADIO) {
             // set the random answers and make visible
             radioOptionA.setText(answers[0]);
@@ -234,7 +278,7 @@ public class QuizActivity extends AppCompatActivity {
             radioOptionD.setText(answers[3]);
             radioGroup.setVisibility(View.VISIBLE);
 
-            // if it hasn't been answered and it's a checkbox
+        // if it hasn't been answered and it's a checkbox
         } else if (thisQuestion.getQuestionType() == CHECKBOX) {
             // set the random answers and make visible
             checkOptionA.setText(answers[0]);
@@ -243,7 +287,7 @@ public class QuizActivity extends AppCompatActivity {
             checkOptionD.setText(answers[3]);
             checkBoxGroup.setVisibility(View.VISIBLE);
 
-            // if it hasn't been answered and it's an edittext
+        // if it hasn't been answered and it's an edittext
         } else if (thisQuestion.getQuestionType() == EDITTEXT) {
             // empty and make visible
             editTextAnswer.setText("");
@@ -254,7 +298,7 @@ public class QuizActivity extends AppCompatActivity {
 
     }
 
-    /*
+    /**
      * check the score if currentQuestion is a RadioButton
      * @return boolean - whether or not it's been answered
      */
@@ -276,7 +320,7 @@ public class QuizActivity extends AppCompatActivity {
         return true;
     }
 
-    /*
+    /**
      * check the score if currentQuestion is EditText
      * @return boolean - whether or not it's been answered
      */
@@ -296,9 +340,10 @@ public class QuizActivity extends AppCompatActivity {
         return true;
     }
 
-    /*
+    /**
      * check the score if currentQuestion is a CheckBox
      * @return boolean - whether or not it's been answered
+     * if any ticked are wrong, or not all right are ticked, it's wrong (yes I'm mean!)
      */
     private boolean checkScoreCheckBox() {
         if (thisQuestion.getQuestionType() == CHECKBOX && thisQuestion.getAnswerGiven().equals("")) {
@@ -356,53 +401,53 @@ public class QuizActivity extends AppCompatActivity {
         return true;
     }
 
-    /*
+    /**
      * short way to show a Toast
-     * @param String - message to display
+     * @param message to display (String)
      */
     private void myToast(String message) {
         Toast.makeText(QuizActivity.this, message, Toast.LENGTH_SHORT).show();
     }
 
-    /*
+    /**
      * Add all the questions to an array here
      * for ease of viewing, first line consists of correct answers, second line (if any) is wrong answers
      */
     private void addAllQuestions() {
         questions.add(new Question(R.drawable.labrador, R.string.labrador, R.string.golden_lab,
-                R.string.bull_mastiff, R.string.dalmatian, ANS2, CHECKBOX));
+                R.string.bull_mastiff, R.string.dalmatian, ANS2));
 
         questions.add(new Question(R.drawable.american_eskimo, R.string.american_eskimo,
-                R.string.alaskan_malamute, R.string.husky, R.string.king_charles, RADIO));
+                R.string.alaskan_malamute, R.string.husky, R.string.king_charles));
 
         questions.add(new Question(R.drawable.bullmastiff, R.string.bull_mastiff,
-                R.string.dalmatian, R.string.chihuahua, R.string.staffie, RADIO));
+                R.string.dalmatian, R.string.chihuahua, R.string.staffie));
 
-        questions.add(new Question(R.drawable.boxer, R.string.boxer, EDITTEXT));
+        questions.add(new Question(R.drawable.boxer, R.string.boxer));
 
         questions.add(new Question(R.drawable.alaskan_malamute, R.string.alaskan_malamute,
-                R.string.american_eskimo, R.string.husky, R.string.chihuahua, RADIO));
+                R.string.american_eskimo, R.string.husky, R.string.chihuahua));
 
         questions.add(new Question(R.drawable.chowchow, R.string.chowchow,
-                R.string.cairn_terrier, R.string.alaskan_malamute, R.string.poodle, RADIO));
+                R.string.cairn_terrier, R.string.alaskan_malamute, R.string.poodle));
 
         questions.add(new Question(R.drawable.westie, R.string.westie, R.string.west_highland_terrier,
-                R.string.cairn_terrier, R.string.chowchow, ANS1, CHECKBOX));
+                R.string.cairn_terrier, R.string.chowchow, ANS2));
 
         questions.add(new Question(R.drawable.king_charles, R.string.king_charles,
-                R.string.cocker_spaniel, R.string.labradoodle, R.string.poodle, RADIO));
+                R.string.cocker_spaniel, R.string.labradoodle, R.string.poodle));
+
+        questions.add(new Question(R.drawable.whippet, R.string.whippet));
 
         questions.add(new Question(R.drawable.weimaraner, R.string.weimaraner,
-                R.string.greyhound, R.string.cairn_terrier, R.string.labrador, RADIO));
-
-        questions.add(new Question(R.drawable.whippet, R.string.whippet, EDITTEXT));
+                R.string.greyhound, R.string.cairn_terrier, R.string.labrador));
 
         // store number of questions for later
         numQuestions = questions.size();
     }
 
-    /*
-     * Simply decides whether or not to hide each button based on current question number
+    /**
+     * Simply decides whether or not to hide each button based on current question
      */
     private void showHideButtons() {
         // hide the previous and submit buttons if it's the first question
@@ -411,13 +456,13 @@ public class QuizActivity extends AppCompatActivity {
             nextButton.setVisibility(View.VISIBLE);
             submitButton.setVisibility(View.GONE);
 
-            // hide the next button and show the submit button if it's the last question
+        // hide the next button and show the submit button if it's the last question
         } else if (currentQuestion == numQuestions - 1) {
             prevButton.setVisibility(View.VISIBLE);
             nextButton.setVisibility(View.INVISIBLE);
             submitButton.setVisibility(View.VISIBLE);
 
-            // otherwise show prev and next, hide submit
+        // otherwise show prev and next, hide submit
         } else {
             prevButton.setVisibility(View.VISIBLE);
             nextButton.setVisibility(View.VISIBLE);

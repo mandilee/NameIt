@@ -75,7 +75,6 @@
             android:layout_height="wrap_content"
             android:hint="@string/edit_text_hint"
             android:textAlignment="center"/>
-
     </LinearLayout>
 
     <ImageButton
@@ -226,7 +225,5 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"/>
-
     </LinearLayout>
-
 </android.support.constraint.ConstraintLayout>

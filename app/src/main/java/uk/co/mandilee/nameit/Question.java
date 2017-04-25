@@ -16,6 +16,7 @@ class Question implements Parcelable {
             return new Question(source);
         }
     };
+
     private int mImageResId;
     private int mAnswer1;
     private int mAnswer2;
@@ -26,31 +27,31 @@ class Question implements Parcelable {
     private boolean mAnswerCorrect = false;
     private int mQuestionType;
 
-    Question(int imageResId, int answer1, int answer2, int answer3, int answer4, int correctAnswers, int questionType) {
+    Question(int imageResId, int answer1, int answer2, int answer3, int answer4, int correctAnswers) {
         mImageResId = imageResId;
         mAnswer1 = answer1;
         mAnswer2 = answer2;
         mAnswer3 = answer3;
         mAnswer4 = answer4;
         mCorrectAnswers = correctAnswers;
-        mQuestionType = questionType;
+        mQuestionType = QuizActivity.CHECKBOX;
     }
 
-    Question(int imageResId, int answer1, int answer2, int answer3, int answer4, int questionType) {
+    Question(int imageResId, int answer1, int answer2, int answer3, int answer4) {
         mImageResId = imageResId;
         mAnswer1 = answer1;
         mAnswer2 = answer2;
         mAnswer3 = answer3;
         mAnswer4 = answer4;
         mCorrectAnswers = QuizActivity.ANS1;
-        mQuestionType = questionType;
+        mQuestionType = QuizActivity.RADIO;
     }
 
-    Question(int imageResId, int answer1, int questionType) {
+    Question(int imageResId, int answer1) {
         mImageResId = imageResId;
         mAnswer1 = answer1;
         mCorrectAnswers = QuizActivity.ANS1;
-        mQuestionType = questionType;
+        mQuestionType = QuizActivity.EDITTEXT;
     }
 
     private Question(Parcel parcel) {
@@ -63,7 +64,6 @@ class Question implements Parcelable {
         mAnswerGiven = parcel.readString();
         mAnswerCorrect = Boolean.valueOf(parcel.readString());
         mQuestionType = parcel.readInt();
-
     }
 
     int getImageResId() {
@@ -130,6 +130,5 @@ class Question implements Parcelable {
         dest.writeString(mAnswerGiven);
         dest.writeString(String.valueOf(mAnswerCorrect));
         dest.writeInt(mQuestionType);
-
     }
 }
