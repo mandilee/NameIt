@@ -92,6 +92,8 @@ public class QuizActivity extends AppCompatActivity {
             llGivenAnswer;
 
     // Fisher–Yates shuffle
+    // function obtained from here - http://stackoverflow.com/a/1520212
+    // made easier to read
     private static void shuffleIntArray(int[] array) {
         Random random = ThreadLocalRandom.current();
         for (int i = array.length - 1; i > 0; i--) {    // loop through the array
